@@ -3,10 +3,10 @@
 # tfextern library
 ########################################################
 set(tfextern_srcs
-	"${tensorflow_source_dir}/../tfextern/tfextern.cc"
+	"${tensorflow_source_dir}/tensorflow/tfextern/tfextern.cc"
 )
 set(tfextern_hdrs
-	"${tensorflow_source_dir}/../tfextern/tfextern.h"
+	"${tensorflow_source_dir}/tensorflow/tfextern/tfextern.h"
 )
 
 add_library(tfextern SHARED
