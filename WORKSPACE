@@ -17,6 +17,8 @@ closure_repositories()
 load("//tensorflow:workspace.bzl", "tf_workspace")
 
 # Uncomment and update the paths in these entries to build the Android demo.
+#    build_tools_version = "26.0.1",
+#    "/home/canming/android",
 #android_sdk_repository(
 #    name = "androidsdk",
 #    api_level = 23,
@@ -29,7 +31,7 @@ load("//tensorflow:workspace.bzl", "tf_workspace")
 #
 #android_ndk_repository(
 #    name="androidndk",
-#    path="<PATH_TO_NDK>",
+#    path="/home/canming/android/android-ndk-r12b",
 #    # This needs to be 14 or higher to compile TensorFlow.
 #    # Please specify API level to >= 21 to build for 64-bit
 #    # archtectures or the Android NDK will automatically select biggest
