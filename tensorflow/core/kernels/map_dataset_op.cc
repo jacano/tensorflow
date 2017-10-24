@@ -119,14 +119,6 @@ class MapDatasetOp : public UnaryDatasetOpKernel {
                   .IgnoreError();
             });
         opts.step_container = &step_container;
-        ScopedStepContainer step_container(
-            opts.step_id, [this, ctx](const string& name) {
-              dataset()
-                  ->captured_func_->resource_manager()
-                  ->Cleanup(name)
-                  .IgnoreError();
-            });
-        opts.step_container = &step_container;
         opts.runner = ctx->runner();
         // TODO(mrry): Avoid blocking a threadpool thread. We will need to
         // stack-rip the iterators and use async kernels.
