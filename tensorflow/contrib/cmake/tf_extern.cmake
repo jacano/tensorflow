@@ -19,6 +19,7 @@ add_library(tfextern SHARED
     $<TARGET_OBJECTS:tf_core_kernels>
     $<TARGET_OBJECTS:tf_cc_framework>
     $<TARGET_OBJECTS:tf_cc_ops>
+	$<TARGET_OBJECTS:tf_cc_while_loop>
     $<TARGET_OBJECTS:tf_core_ops>
     $<TARGET_OBJECTS:tf_core_direct_session>
     $<$<BOOL:${tensorflow_ENABLE_GPU}>:$<TARGET_OBJECTS:tf_stream_executor>>
@@ -88,7 +89,7 @@ IF(WIN32 AND tensorflow_ENABLE_GPU)
 	  "${CUDA_TOOLKIT_ROOT_DIR}/bin/cublas${CUDA_POSTFIX}_${npp_major}${npp_minor}.dll"
 	  "${CUDA_TOOLKIT_ROOT_DIR}/bin/curand${CUDA_POSTFIX}_${npp_major}${npp_minor}.dll"
 	  "${CUDA_TOOLKIT_ROOT_DIR}/bin/cusolver${CUDA_POSTFIX}_${npp_major}${npp_minor}.dll"
-	  "${CUDA_TOOLKIT_ROOT_DIR}/bin/cudnn${CUDA_POSTFIX}_5.dll"
+	  "${CUDA_TOOLKIT_ROOT_DIR}/bin/cudnn${CUDA_POSTFIX}_6.dll"
 	  )
 ENDIF()
 
