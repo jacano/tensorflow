@@ -124,6 +124,10 @@ void tfeCloseSession(TF_Session* session, TF_Status* status)
 {
 	TF_CloseSession(session, status);
 }
+void tfeSetConfig(TF_SessionOptions* options, const void* proto, int proto_len, TF_Status* status)
+{
+  TF_SetConfig(options, proto, proto_len, status);
+}
 void tfeSetTarget(TF_SessionOptions* options, const char* target)
 {
 	TF_SetTarget(options, target);

@@ -51,6 +51,7 @@ TFAPI(void) tfeGetDim(TF_Tensor* tensor, int* dims, int numDims);
 TFAPI(TF_SessionOptions*) tfeNewSessionOptions();
 TFAPI(void) tfeDeleteSessionOptions(TF_SessionOptions** session_options);
 TFAPI(void) tfeCloseSession(TF_Session* session, TF_Status* status);
+TFAPI(void) tfeSetConfig(TF_SessionOptions* options, const void* proto, int proto_len, TF_Status* status);
 TFAPI(void) tfeSetTarget(TF_SessionOptions* options, const char* target);
 
 TFAPI(TF_Session*) tfeNewSession(TF_Graph* graph, const TF_SessionOptions* opts, TF_Status* status);
