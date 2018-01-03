@@ -23,11 +23,15 @@ if(WIN32)
     debug ${CMAKE_CURRENT_BINARY_DIR}/protobuf/src/protobuf/$(Configuration)/libprotobufd.lib
     optimized ${CMAKE_CURRENT_BINARY_DIR}/protobuf/src/protobuf/$(Configuration)/libprotobuf.lib)
   set(PROTOBUF_PROTOC_EXECUTABLE ${CMAKE_CURRENT_BINARY_DIR}/protobuf/src/protobuf/$(Configuration)/protoc.exe)
-  set(PROTOBUF_ADDITIONAL_CMAKE_OPTIONS	-Dprotobuf_MSVC_STATIC_RUNTIME:BOOL=OFF -A x64)
+  set(PROTOBUF_ADDITIONAL_CMAKE_OPTIONS	-Dprotobuf_MSVC_STATIC_RUNTIME:BOOL=OFF -G "${CMAKE_GENERATOR}")
 else()
   set(protobuf_STATIC_LIBRARIES ${CMAKE_CURRENT_BINARY_DIR}/protobuf/src/protobuf/libprotobuf.a)
   set(PROTOBUF_PROTOC_EXECUTABLE ${CMAKE_CURRENT_BINARY_DIR}/protobuf/src/protobuf/protoc)
 endif()
+
+#MESSAGE(STATUS "************************  CMAKE_GENERATOR: ${CMAKE_GENERATOR} ************************")
+#MESSAGE(STATUS "************************  CMAKE_GENERATOR_PLATFORM: ${CMAKE_GENERATOR_PLATFORM} ************************")
+#MESSAGE(STATUS "************************  CMAKE_GENERATOR_TOOLSET: ${CMAKE_GENERATOR_TOOLSET} ************************")
 
 ExternalProject_Add(protobuf
     PREFIX protobuf
@@ -42,10 +46,14 @@ ExternalProject_Add(protobuf
         -DCMAKE_POSITION_INDEPENDENT_CODE=ON
         -DZLIB_ROOT=${ZLIB_INSTALL}
         ${PROTOBUF_ADDITIONAL_CMAKE_OPTIONS}
+	CMAKE_GENERATOR "${CMAKE_GENERATOR}"
+	CMAKE_GENERATOR_PLATFORM "${CMAKE_GENERATOR_PLATFORM}"
+	CMAKE_GENERATOR_TOOLSET "${CMAKE_GENERATOR_TOOLSET}"
     INSTALL_COMMAND ""
     CMAKE_CACHE_ARGS
         -DCMAKE_BUILD_TYPE:STRING=Release
         -DCMAKE_VERBOSE_MAKEFILE:BOOL=OFF
         -DCMAKE_POSITION_INDEPENDENT_CODE:BOOL=ON
         -DZLIB_ROOT:STRING=${ZLIB_INSTALL}
+
 )
