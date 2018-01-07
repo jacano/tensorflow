@@ -32,6 +32,11 @@ endif()
 #MESSAGE(STATUS "************************  CMAKE_GENERATOR: ${CMAKE_GENERATOR} ************************")
 #MESSAGE(STATUS "************************  CMAKE_GENERATOR_PLATFORM: ${CMAKE_GENERATOR_PLATFORM} ************************")
 #MESSAGE(STATUS "************************  CMAKE_GENERATOR_TOOLSET: ${CMAKE_GENERATOR_TOOLSET} ************************")
+SET(CODED_STREAM_PATH "${CMAKE_CURRENT_BINARY_DIR}/protobuf/src/protobuf/src/google/protobuf/io/coded_stream.h")
+IF(WIN32)
+	STRING(REGEX REPLACE "/" "\\\\" CODED_STREAM_PATH ${CODED_STREAM_PATH} )
+ENDIF()
+#MESSAGE(STATUS "************************  Patch command: sed -i 's/kDefaultTotalBytesLimit = 64/kDefaultTotalBytesLimit = 500/g' ${CODED_STREAM_PATH} ************************")
 
 ExternalProject_Add(protobuf
     PREFIX protobuf
@@ -41,6 +46,8 @@ ExternalProject_Add(protobuf
     DOWNLOAD_DIR "${DOWNLOAD_LOCATION}"
     BUILD_IN_SOURCE 1
     SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/protobuf/src/protobuf
+	PATCH_COMMAND 
+		COMMAND sed -i "s/kDefaultTotalBytesLimit = 64/kDefaultTotalBytesLimit = 500/g" ${CODED_STREAM_PATH}
     CONFIGURE_COMMAND ${CMAKE_COMMAND} cmake/
         -Dprotobuf_BUILD_TESTS=OFF
         -DCMAKE_POSITION_INDEPENDENT_CODE=ON
