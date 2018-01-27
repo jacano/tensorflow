@@ -58,6 +58,7 @@ MESSAGE(STATUS "tensorflow_ENABLE_GPU: ${tensorflow_ENABLE_GPU}")
 IF(WIN32 AND tensorflow_ENABLE_GPU)
   SET(CUDA_TOOLKIT_ROOT_DIR "${CUDNN_HOME}")
   SET(CUDA_NPP_INCLUDES "${CUDA_TOOLKIT_ROOT_DIR}/include")
+  SET(CUDA_DNN_INCLUDES "${CUDA_TOOLKIT_ROOT_DIR}/include")
   MESSAGE("npp includes: ${CUDA_NPP_INCLUDES}")
   if(EXISTS ${CUDA_NPP_INCLUDES}/nppversion.h)
     MESSAGE("npp version header: ${CUDA_NPP_INCLUDES}/nppversion.h")
@@ -72,6 +73,22 @@ IF(WIN32 AND tensorflow_ENABLE_GPU)
     string( REGEX MATCH "[0-9]+" npp_major ${npp_major} ) 
     string( REGEX MATCH "[0-9]+" npp_minor ${npp_minor} ) 
     string( REGEX MATCH "[0-9]+" npp_build ${npp_build} ) 	
+  endif()
+  
+  if(EXISTS ${CUDA_DNN_INCLUDES}/cudnn.h)
+    MESSAGE("cudnn header: ${CUDA_DNN_INCLUDES}/cudnn.h")
+    file( STRINGS ${CUDA_DNN_INCLUDES}/cudnn.h dnn_major REGEX "#define CUDNN_MAJOR.*")
+    file( STRINGS ${CUDA_DNN_INCLUDES}/cudnn.h dnn_minor REGEX "#define CUDNN_MINOR.*")
+    file( STRINGS ${CUDA_DNN_INCLUDES}/cudnn.h dnn_patchlevel REGEX "#define CUDNN_PATCHLEVEL.*")
+    
+    string( REGEX REPLACE "#define CUDNN_MAJOR[ \t]+|//.*" "" dnn_major ${dnn_major})
+    string( REGEX REPLACE "#define CUDNN_MINOR[ \t]+|//.*" "" dnn_minor ${dnn_minor})
+    string( REGEX REPLACE "#define CUDNN_PATCHLEVEL[ \t]+|//.*" "" dnn_patchlevel ${dnn_patchlevel})
+    
+    string( REGEX MATCH "[0-9]+" dnn_major ${dnn_major} ) 
+    string( REGEX MATCH "[0-9]+" dnn_minor ${dnn_minor} ) 
+    string( REGEX MATCH "[0-9]+" dnn_patchlevel ${dnn_patchlevel} ) 	
+	MESSAGE("build with CUDNN: ${dnn_major}.${dnn_minor}.${dnn_patchlevel}")
   endif()
   
   #SET(CUDA_NPP_LIBRARY_ROOT_DIR ${CUDA_TOOLKIT_ROOT_DIR})
@@ -89,8 +106,12 @@ IF(WIN32 AND tensorflow_ENABLE_GPU)
 	  "${CUDA_TOOLKIT_ROOT_DIR}/bin/cublas${CUDA_POSTFIX}_${npp_major}${npp_minor}.dll"
 	  "${CUDA_TOOLKIT_ROOT_DIR}/bin/curand${CUDA_POSTFIX}_${npp_major}${npp_minor}.dll"
 	  "${CUDA_TOOLKIT_ROOT_DIR}/bin/cusolver${CUDA_POSTFIX}_${npp_major}${npp_minor}.dll"
-	  "${CUDA_TOOLKIT_ROOT_DIR}/bin/cudnn${CUDA_POSTFIX}_7.dll"
+	  "${CUDA_TOOLKIT_ROOT_DIR}/bin/cudnn${CUDA_POSTFIX}_${dnn_major}.dll"
 	  )
+  SET(EMGU_DNN_VERSION "${dnn_major}.${dnn_minor}")
+  SET(NUGET_PACKAGE_VENDOR "Emgu Corporation")
+  CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/nuget/Dnn.Package.nuspec.in ${CMAKE_CURRENT_SOURCE_DIR}/nuget/Dnn/Package.nuspec)
+	  
 ENDIF()
 
 ############################### GPU END ################################
