@@ -45,7 +45,7 @@ export TF_BAZEL_TARGETS="${TF_BAZEL_TARGETS} //tensorflow/java:libtensorflow_jni
 export TF_BAZEL_TARGETS="${TF_BAZEL_TARGETS} //tensorflow/tools/lib_package:jnilicenses_generate"
 
 clean_output_base
-run_configure_for_cpu_build
+run_configure_for_gpu_build
 
 # build_libtensorflow_tarball in ../builds/libtensorflow.sh
 # cannot be used on Windows since it relies on pkg_tar rules.
