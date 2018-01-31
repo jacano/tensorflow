@@ -109,8 +109,10 @@ IF(WIN32 AND tensorflow_ENABLE_GPU)
 	  "${CUDA_TOOLKIT_ROOT_DIR}/bin/cudnn${CUDA_POSTFIX}_${dnn_major}.dll"
 	  )
   SET(EMGU_DNN_VERSION "${dnn_major}.${dnn_minor}")
+  SET(EMGU_CUFFT_VERSION "${npp_major}.${npp_minor}")
   SET(NUGET_PACKAGE_VENDOR "Emgu Corporation")
   CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/nuget/Dnn.Package.nuspec.in ${CMAKE_CURRENT_SOURCE_DIR}/nuget/Dnn/Package.nuspec)
+  CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/nuget/Cufft.Package.nuspec.in ${CMAKE_CURRENT_SOURCE_DIR}/nuget/Cufft/Package.nuspec)
 	  
 ENDIF()
 
