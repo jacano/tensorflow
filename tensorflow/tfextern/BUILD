@@ -5,9 +5,11 @@ load(
     "tf_copts",
     "tf_opts_nortti_if_android",
     "if_android",
+    "tf_cc_shared_object",
 )
 
-cc_binary(
+#cc_binary(
+tf_cc_shared_object(
     name = "libtfextern.so",
     srcs = ["tfextern.cc",
         "tfextern.h"
@@ -24,10 +26,14 @@ cc_binary(
         "-z defs",
         "-s",
         "-Wl,--gc-sections",
+    ],  "//tensorflow:darwin": [
+    	"-lm",
+	"-lpthread",
+	#"-Wl,-install_name,@rpath/libtfextern.dylib"
     ],
-    "//conditions:default": ["-lm"],
+	"//conditions:default": ["-lm"],
     }),
-    linkshared = 1,
+    #linkshared = 1,
     linkstatic = 1,
     tags = [
         "manual",
@@ -40,9 +46,10 @@ cc_binary(
             "//tensorflow/core:android_tensorflow_lib"
         ],
         "//conditions:default": [
-			"//tensorflow/c:c_api",
+	    "//tensorflow/c:c_api",
             "//tensorflow/cc:cc_ops",
             "//tensorflow/core:framework_internal",
+	    "//tensorflow/core:framework",
             "//tensorflow/core:tensorflow",
         ],
     }),
