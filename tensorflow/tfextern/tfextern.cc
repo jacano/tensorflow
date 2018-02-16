@@ -93,6 +93,37 @@ void tfeSessionRun(
 
 }
 
+void tfeSessionListDevices(TF_Session* session, char* nameBuffer, char* typeBuffer, long long* memorySizeBuffer, TF_Status* status)
+{
+	TF_DeviceList* deviceList = TF_SessionListDevices(session, status);
+
+	int namePosition = 0, typePosition = 0;
+	int deviceCount = TF_DeviceListCount(deviceList);
+	int i;
+	for (i = 0; i < deviceCount; i++)
+	{
+		const char* deviceName = TF_DeviceListName(deviceList, i, status);
+		int deviceNameLength = strlen(deviceName);
+		memcpy(nameBuffer + namePosition, deviceName, deviceNameLength);
+		namePosition += deviceNameLength;
+		nameBuffer[namePosition] = '\n';
+		namePosition += 1;
+
+		const char* deviceType = TF_DeviceListType(deviceList, i, status);
+		int deviceTypeLength = strlen(deviceType);
+		memcpy(typeBuffer + typePosition, deviceType, deviceTypeLength);
+		typePosition += deviceTypeLength;
+		typeBuffer[typePosition] = '\n';
+		typePosition += 1;
+
+		*(memorySizeBuffer+i) = TF_DeviceListMemoryBytes(deviceList, i, status);
+	}
+	nameBuffer[namePosition] = '\0';
+	typeBuffer[typePosition] = '\0';
+	//memorySizeBuffer[i] = 0;
+	TF_DeleteDeviceList(deviceList);
+}
+
 TF_Status* tfeNewStatus()
 {
 	return TF_NewStatus();
@@ -232,7 +263,10 @@ void tfeGraphGetTensorShape(TF_Graph* graph, TF_Operation* outputOperation, int 
 		dims[i] = static_cast<int>(dimsTF[i]);
 	free(dimsTF);
 }
-
+void tfeGraphVersions(TF_Graph* graph, TF_Buffer* output_version_def, TF_Status* status)
+{
+	TF_GraphVersions(graph, output_version_def, status);
+}
 
 TF_OperationDescription* tfeNewOperation(TF_Graph* graph, char* op_type, char* oper_name)
 {
@@ -266,10 +300,27 @@ TF_DataType tfeOperationOutputType(TF_Operation* oper, int idx)
 	out.index = idx;
 	return TF_OperationOutputType(out);
 }
+int tfeOperationOutputNumConsumers(TF_Operation* oper, int idx)
+{
+	TF_Output out;
+	out.oper = oper;
+	out.index = idx;
+	return TF_OperationOutputNumConsumers(out);
+}
 int tfeOperationNumInputs(TF_Operation* oper)
 {
 	return TF_OperationNumInputs(oper);
 }
+int tfeOperationNumControlInputs(TF_Operation* oper)
+{
+	return TF_OperationNumControlInputs(oper);
+}
+int tfeOperationNumControlOutputs(TF_Operation* oper)
+{
+	return TF_OperationNumControlOutputs(oper);
+}
+
+
 TF_DataType tfeOperationInputType(TF_Operation* oper, int idx)
 {
 	TF_Input input;
@@ -278,6 +329,22 @@ TF_DataType tfeOperationInputType(TF_Operation* oper, int idx)
 	return TF_OperationInputType(input);
 }
 
+//Function
+TF_Function* tfeFunctionImportFunctionDef(const void* proto, int proto_len, TF_Status* status)
+{
+	return TF_FunctionImportFunctionDef(proto, proto_len, status);
+}
+void tfeDeleteFunction(TF_Function** func)
+{
+	TF_DeleteFunction(*func);
+	*func = 0;
+}
+void tfeFunctionToFunctionDef(TF_Function* func, TF_Buffer* output_func_def, TF_Status* status)
+{
+	TF_FunctionToFunctionDef(func, output_func_def, status);
+}
+
+//OperationDescription
 void tfeAddInput(TF_OperationDescription* desc, TF_Operation* oper, int index)
 {
 	TF_Output out;
@@ -312,6 +379,10 @@ void tfeSetAttrFloatList(TF_OperationDescription* desc, const char* attr_name, c
 void tfeSetAttrString(TF_OperationDescription* desc, const char* attr_name, const void* value, int length)
 {
 	TF_SetAttrString(desc, attr_name, value, length);
+}
+void tfeSetAttrStringList(TF_OperationDescription* desc, const char* attr_name, const void** values, size_t* lengths, int numValues)
+{
+	TF_SetAttrStringList(desc, attr_name, values, lengths, numValues);
 }
 void tfeSetAttrType(TF_OperationDescription* desc, const char* attr_name, TF_DataType value)
 {
