@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>EMGU.DNN</id>
-	<title>Native x64 DNN dependency</title>
+	<title>Native x64 DNN binary</title>
     <version>${EMGU_DNN_VERSION}</version>
     <authors>${NUGET_PACKAGE_VENDOR}</authors>
     <owners>${NUGET_PACKAGE_VENDOR}</owners>
@@ -12,7 +12,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
 	<summary>This package provides the native DNN dependencies for EMGU software libraries</summary>
     <description>This package provides the native DNN dependencies for EMGU software libraries</description>
-    <releaseNotes>This is the ${EMGU_DNN_VERSION} release of CUDA. </releaseNotes>
+    <releaseNotes>This is the ${EMGU_DNN_VERSION} release of DNN for CUDA ${EMGU_CUFFT_VERSION}. </releaseNotes>
     <copyright>${NUGET_PACKAGE_VENDOR}, All Rights Reserved.</copyright>
     <tags>emgu dnn</tags>
   </metadata>
