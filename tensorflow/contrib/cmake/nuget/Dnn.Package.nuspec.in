@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>EMGU.DNN</id>
+	<title>Native x64 DNN binary</title>
+    <version>${EMGU_DNN_VERSION}</version>
+    <authors>${NUGET_PACKAGE_VENDOR}</authors>
+    <owners>${NUGET_PACKAGE_VENDOR}</owners>
+    <licenseUrl>http://docs.nvidia.com/deeplearning/sdk/cudnn-sla/index.html</licenseUrl>
+    <projectUrl>http://www.emgu.com/wiki/index.php</projectUrl>
+	<iconUrl>http://www.emgu.com/wiki/files/EmguCVLogo.gif</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+	<summary>This package provides the native DNN dependencies for EMGU software libraries</summary>
+    <description>This package provides the native DNN dependencies for EMGU software libraries</description>
+    <releaseNotes>This is the ${EMGU_DNN_VERSION} release of DNN for CUDA ${EMGU_CUFFT_VERSION}. </releaseNotes>
+    <copyright>${NUGET_PACKAGE_VENDOR}, All Rights Reserved.</copyright>
+    <tags>emgu dnn</tags>
+  </metadata>
+  <files>
+	<file src="Emgu.Dnn.targets" target="build\EMGU.DNN.targets" />
+    <file src="..\..\..\lib\x64\cudnn*.dll" target="build\x64" />
+	<file src="cuDNN-SLA.pdf" target="content\net35\cuDNN-SLA.pdf" />
+  </files>
+</package>
