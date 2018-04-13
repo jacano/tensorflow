@@ -30,6 +30,7 @@ tflite::ops::builtin::BuiltinOpResolver* tfeBuiltinOpResolverCreate(tflite::OpRe
 {
    tflite::ops::builtin::BuiltinOpResolver* builtinOpResolver = new tflite::ops::builtin::BuiltinOpResolver();
    *opResolver = dynamic_cast<tflite::OpResolver*>(builtinOpResolver);
+   return builtinOpResolver;
 }
 void tfeBuiltinOpResolverRelease(tflite::ops::builtin::BuiltinOpResolver** resolver)
 {
@@ -50,11 +51,11 @@ int tfeInterpreterInvoke(tflite::Interpreter* interpreter)
 }
 char* tfeInterpreterInputTensor(tflite::Interpreter* interpreter, int index)
 {
-  char* ptr = interpreter->typed_input_tensor<char>(0);
+  return interpreter->typed_input_tensor<char>(index);
 }
 char* tfeInterpreterOutputTensor(tflite::Interpreter* interpreter, int index)
 {
-  char* ptr = interpreter->typed_output_tensor<char>(0);
+  return interpreter->typed_output_tensor<char>(index);
 }
 int tfeInterpreterTensorSize(tflite::Interpreter* interpreter)
 {
