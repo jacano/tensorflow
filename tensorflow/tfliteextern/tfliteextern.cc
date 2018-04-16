@@ -116,11 +116,12 @@ void tfeInterpreterBuilderRelease(tflite::InterpreterBuilder** builder)
   delete * builder;
   *builder = 0;
 }
-void tfeInterpreterBuilderBuild(tflite::InterpreterBuilder* builder, tflite::Interpreter* interpreter)
+int tfeInterpreterBuilderBuild(tflite::InterpreterBuilder* builder, tflite::Interpreter* interpreter)
 {
   std::unique_ptr<tflite::Interpreter> ptr(interpreter);
-  (*builder)(&ptr);
+  int status = (*builder)(&ptr);
   ptr.release();
+  return status;
 }
 
 

@@ -67,7 +67,7 @@ TFAPI(void) tfeInterpreterRelease(tflite::Interpreter** interpreter);
 
 TFAPI(tflite::InterpreterBuilder*) tfeInterpreterBuilderCreate(tflite::FlatBufferModel* model, tflite::OpResolver* opResolver);
 TFAPI(void) tfeInterpreterBuilderRelease(tflite::InterpreterBuilder** builder);
-TFAPI(void) tfeInterpreterBuilderBuild(tflite::InterpreterBuilder* builder, tflite::Interpreter* interpreter);
+TFAPI(int) tfeInterpreterBuilderBuild(tflite::InterpreterBuilder* builder, tflite::Interpreter* interpreter);
 
 
 
