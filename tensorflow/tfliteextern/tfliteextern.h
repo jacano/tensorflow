@@ -51,6 +51,7 @@ TFAPI(tflite::ops::builtin::BuiltinOpResolver*) tfeBuiltinOpResolverCreate(tflit
 TFAPI(void) tfeBuiltinOpResolverRelease(tflite::ops::builtin::BuiltinOpResolver** resolver);
 
 TFAPI(tflite::Interpreter*) tfeInterpreterCreate();
+TFAPI(tflite::Interpreter*) tfeInterpreterCreateFromModel(tflite::FlatBufferModel* model, tflite::OpResolver* opResolver);
 TFAPI(int) tfeInterpreterAllocateTensors(tflite::Interpreter* interpreter);
 TFAPI(int) tfeInterpreterInvoke(tflite::Interpreter* interpreter);
 TFAPI(char*) tfeInterpreterInputTensor(tflite::Interpreter* interpreter, int index);

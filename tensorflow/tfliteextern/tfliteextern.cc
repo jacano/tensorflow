@@ -50,6 +50,13 @@ tflite::Interpreter* tfeInterpreterCreate()
 {
   return new tflite::Interpreter();
 }
+tflite::Interpreter* tfeInterpreterCreateFromModel(tflite::FlatBufferModel* model, tflite::OpResolver* opResolver)
+{
+  //tflite::Interpreter* interpreter = new tflite::Interpreter();
+  std::unique_ptr<tflite::Interpreter> interpreter;
+  tflite::InterpreterBuilder(*model, *opResolver)(&interpreter);
+  return interpreter.release();
+}
 int tfeInterpreterAllocateTensors(tflite::Interpreter* interpreter)
 {
   return interpreter->AllocateTensors();
