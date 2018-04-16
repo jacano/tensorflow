@@ -2,13 +2,13 @@
 
 tflite::FlatBufferModel* tfeFlatBufferModelBuildFromFile(char* filename)
 {
-  std::unique_ptr<tflite::FlatBufferModel> model = tflite::FlatBufferModel::BuildFromFile(filename); 
+  std::unique_ptr<tflite::FlatBufferModel> model = tflite::FlatBufferModel::BuildFromFile(filename, tflite::CallbackErrorReporter()); 
   return model.release();
 }
 
 tflite::FlatBufferModel* tfeFlatBufferModelBuildFromBuffer(char* buffer, int bufferSize)
 {
-  std::unique_ptr<tflite::FlatBufferModel> model = tflite::FlatBufferModel::BuildFromBuffer(buffer, bufferSize); 
+  std::unique_ptr<tflite::FlatBufferModel> model = tflite::FlatBufferModel::BuildFromBuffer(buffer, bufferSize, tflite::CallbackErrorReporter()); 
   return model.release();
 }
 
@@ -19,6 +19,15 @@ tflite::FlatBufferModel* tfeFlatBufferModelBuildFromModel(tflite::FlatBufferMode
   return model.release();
 }
 */
+
+bool tfeFlatBufferModelInitialized(tflite::FlatBufferModel* model)
+{
+  return model->initialized();
+}
+bool tfeFlatBufferModelCheckModelIdentifier(tflite::FlatBufferModel* model)
+{
+  return model->CheckModelIdentifier();
+}
 
 void tfeFlatBufferModelRelease(tflite::FlatBufferModel** model)
 {
@@ -112,4 +121,27 @@ void tfeInterpreterBuilderBuild(tflite::InterpreterBuilder* builder, tflite::Int
   std::unique_ptr<tflite::Interpreter> ptr(interpreter);
   (*builder)(&ptr);
   ptr.release();
+}
+
+
+
+static tflite::ErrorCallback customErrorCallback = 0;
+
+char errBuffer[2048]; 
+
+int tflite::TfliteErrReporter::Report(const char* format, va_list args) {
+  const int result = sprintf(errBuffer, format, args);
+  if (customErrorCallback)
+    customErrorCallback(result, errBuffer);
+  return result;
+}
+
+void tfeRedirectError( tflite::ErrorCallback errCallback)
+{
+  customErrorCallback = errCallback;
+}
+
+tflite::ErrorReporter* tflite::CallbackErrorReporter() {
+  static tflite::TfliteErrReporter* error_reporter = new tflite::TfliteErrReporter;
+  return error_reporter;
 }

@@ -43,6 +43,8 @@
 TFAPI(tflite::FlatBufferModel*) tfeFlatBufferModelBuildFromFile(char* filename);
 TFAPI(tflite::FlatBufferModel*) tfeFlatBufferModelBuildFromBuffer(char* buffer, int bufferSize);
 //TFAPI(tflite::FlatBufferModel*) tfeFlatBufferModelBuildFromModel(tflite::FlatBufferModel* other);
+TFAPI(bool) tfeFlatBufferModelInitialized(tflite::FlatBufferModel* model);
+TFAPI(bool) tfeFlatBufferModelCheckModelIdentifier(tflite::FlatBufferModel* model);
 TFAPI(void) tfeFlatBufferModelRelease(tflite::FlatBufferModel** model);
 
 TFAPI(tflite::ops::builtin::BuiltinOpResolver*) tfeBuiltinOpResolverCreate(tflite::OpResolver** opResolver);
@@ -66,3 +68,19 @@ TFAPI(void) tfeInterpreterRelease(tflite::Interpreter** interpreter);
 TFAPI(tflite::InterpreterBuilder*) tfeInterpreterBuilderCreate(tflite::FlatBufferModel* model, tflite::OpResolver* opResolver);
 TFAPI(void) tfeInterpreterBuilderRelease(tflite::InterpreterBuilder** builder);
 TFAPI(void) tfeInterpreterBuilderBuild(tflite::InterpreterBuilder* builder, tflite::Interpreter* interpreter);
+
+
+
+namespace tflite
+{
+  extern "C" typedef int (*ErrorCallback)( int status, const char* err_msg);
+  
+  // An error reporter that simplify writes the message to stderr.
+  struct TfliteErrReporter : public ErrorReporter {
+    int Report(const char* format, va_list args) override;
+  };
+
+  ErrorReporter* CallbackErrorReporter();
+}
+
+TFAPI(void) tfeRedirectError( tflite::ErrorCallback errCallback);
