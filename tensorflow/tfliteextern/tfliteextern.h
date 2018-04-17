@@ -78,6 +78,10 @@ TFAPI(int) tfeTensorGetAllocationType(TfLiteTensor* tensor);
 TFAPI(int) tfeTensorGetByteSize(TfLiteTensor* tensor);
 TFAPI(const char*) tfeTensorGetName(TfLiteTensor* tensor);
 
+TFAPI(void) tfeMemcpy(void* dst, void* src, int length);
+
+//TFAPI(const char*) tfeGetVersion();
+
 namespace tflite
 {
   extern "C" typedef int (*ErrorCallback)( int status, const char* err_msg);

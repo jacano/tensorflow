@@ -149,7 +149,7 @@ char* tfeTensorGetData(TfLiteTensor* tensor)
 
 void tfeTensorGetQuantizationParams(TfLiteTensor* tensor, TfLiteQuantizationParams* params)
 {
-  memcpy(&(tensor->params), params, sizeof(TfLiteQuantizationParams));
+  memcpy(params, &(tensor->params), sizeof(TfLiteQuantizationParams));
 }
 
 int tfeTensorGetAllocationType(TfLiteTensor* tensor)
@@ -165,6 +165,18 @@ const char* tfeTensorGetName(TfLiteTensor* tensor)
   return tensor->name;
 }
 
+
+void tfeMemcpy(void* dst, void* src, int length)
+{
+  memcpy(dst, src, length);
+}
+
+/*
+const char* tfeGetVersion()
+{
+  return TF_Version();
+}
+*/
 
 static tflite::ErrorCallback customErrorCallback = 0;
 
