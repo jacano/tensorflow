@@ -65,6 +65,7 @@ int tfeInterpreterInvoke(tflite::Interpreter* interpreter)
 {
   return interpreter->Invoke();
 }
+/*
 char* tfeInterpreterInputTensor(tflite::Interpreter* interpreter, int index)
 {
   return interpreter->typed_input_tensor<char>(index);
@@ -72,6 +73,11 @@ char* tfeInterpreterInputTensor(tflite::Interpreter* interpreter, int index)
 char* tfeInterpreterOutputTensor(tflite::Interpreter* interpreter, int index)
 {
   return interpreter->typed_output_tensor<char>(index);
+}
+*/
+TfLiteTensor* tfeInterpreterGetTensor(tflite::Interpreter* interpreter, int index)
+{
+  return interpreter->tensor(index);
 }
 int tfeInterpreterTensorSize(tflite::Interpreter* interpreter)
 {
@@ -131,6 +137,33 @@ int tfeInterpreterBuilderBuild(tflite::InterpreterBuilder* builder, tflite::Inte
   return status;
 }
 
+int tfeTensorGetType(TfLiteTensor* tensor)
+{
+  return tensor->type;
+}
+
+char* tfeTensorGetData(TfLiteTensor* tensor)
+{
+  return tensor->data.raw;
+}
+
+void tfeTensorGetQuantizationParams(TfLiteTensor* tensor, TfLiteQuantizationParams* params)
+{
+  memcpy(&(tensor->params), params, sizeof(TfLiteQuantizationParams));
+}
+
+int tfeTensorGetAllocationType(TfLiteTensor* tensor)
+{
+  return tensor->allocation_type;
+}
+int tfeTensorGetByteSize(TfLiteTensor* tensor)
+{
+  return (int)tensor->bytes;
+}
+const char* tfeTensorGetName(TfLiteTensor* tensor)
+{
+  return tensor->name;
+}
 
 
 static tflite::ErrorCallback customErrorCallback = 0;

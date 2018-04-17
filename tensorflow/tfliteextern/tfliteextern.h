@@ -54,8 +54,9 @@ TFAPI(tflite::Interpreter*) tfeInterpreterCreate();
 TFAPI(tflite::Interpreter*) tfeInterpreterCreateFromModel(tflite::FlatBufferModel* model, tflite::OpResolver* opResolver);
 TFAPI(int) tfeInterpreterAllocateTensors(tflite::Interpreter* interpreter);
 TFAPI(int) tfeInterpreterInvoke(tflite::Interpreter* interpreter);
-TFAPI(char*) tfeInterpreterInputTensor(tflite::Interpreter* interpreter, int index);
-TFAPI(char*) tfeInterpreterOuputTensor(tflite::Interpreter* interpreter, int index);
+//TFAPI(char*) tfeInterpreterInputTensor(tflite::Interpreter* interpreter, int index);
+//TFAPI(char*) tfeInterpreterOuputTensor(tflite::Interpreter* interpreter, int index);
+TFAPI(TfLiteTensor*) tfeInterpreterGetTensor(tflite::Interpreter* interpreter, int index);
 TFAPI(int) tfeInterpreterTensorSize(tflite::Interpreter* interpreter);
 TFAPI(int) tfeInterpreterNodesSize(tflite::Interpreter* interpreter);
 TFAPI(int) tfeInterpreterGetInputSize(tflite::Interpreter* interpreter);
@@ -70,7 +71,12 @@ TFAPI(tflite::InterpreterBuilder*) tfeInterpreterBuilderCreate(tflite::FlatBuffe
 TFAPI(void) tfeInterpreterBuilderRelease(tflite::InterpreterBuilder** builder);
 TFAPI(int) tfeInterpreterBuilderBuild(tflite::InterpreterBuilder* builder, tflite::Interpreter* interpreter);
 
-
+TFAPI(int) tfeTensorGetType(TfLiteTensor* tensor);
+TFAPI(char*) tfeTensorGetData(TfLiteTensor* tensor);
+TFAPI(void) tfeTensorGetQuantizationParams(TfLiteTensor* tensor, TfLiteQuantizationParams* params);
+TFAPI(int) tfeTensorGetAllocationType(TfLiteTensor* tensor);
+TFAPI(int) tfeTensorGetByteSize(TfLiteTensor* tensor);
+TFAPI(const char*) tfeTensorGetName(TfLiteTensor* tensor);
 
 namespace tflite
 {
