@@ -80,6 +80,11 @@ TFAPI(const char*) tfeTensorGetName(TfLiteTensor* tensor);
 
 TFAPI(void) tfeMemcpy(void* dst, void* src, int length);
 
+TFAPI(tflite::DynamicBuffer*) tfeDynamicBufferCreate();
+TFAPI(void) tfeDynamicBufferRelease(tflite::DynamicBuffer** buffer);
+TFAPI(void) tfeDynamicBufferAddString(tflite::DynamicBuffer* buffer, char* str, int len);
+TFAPI(void) tfeDynamicBufferWriteToTensor(tflite::DynamicBuffer* buffer, TfLiteTensor* tensor);
+
 //TFAPI(const char*) tfeGetVersion();
 
 namespace tflite

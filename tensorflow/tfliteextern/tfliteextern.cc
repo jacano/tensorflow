@@ -171,6 +171,25 @@ void tfeMemcpy(void* dst, void* src, int length)
   memcpy(dst, src, length);
 }
 
+tflite::DynamicBuffer* tfeDynamicBufferCreate()
+{
+  return new tflite::DynamicBuffer();
+}
+void tfeDynamicBufferRelease(tflite::DynamicBuffer** buffer)
+{
+  delete *buffer;
+  *buffer = 0;
+}
+void tfeDynamicBufferAddString(tflite::DynamicBuffer* buffer, char* str, int len)
+{
+  buffer->AddString(str, len);
+}
+void tfeDynamicBufferWriteToTensor(tflite::DynamicBuffer* buffer, TfLiteTensor* tensor)
+{
+  buffer->WriteToTensor(tensor);
+}
+
+
 /*
 const char* tfeGetVersion()
 {
