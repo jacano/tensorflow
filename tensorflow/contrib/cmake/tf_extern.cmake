@@ -113,7 +113,8 @@ IF(WIN32 AND tensorflow_ENABLE_GPU)
   SET(NUGET_PACKAGE_VENDOR "Emgu Corporation")
   CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/nuget/Dnn.Package.nuspec.in ${CMAKE_CURRENT_SOURCE_DIR}/nuget/Dnn/Package.nuspec)
   CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/nuget/Cufft.Package.nuspec.in ${CMAKE_CURRENT_SOURCE_DIR}/nuget/Cufft/Package.nuspec)
-	  
+  FILE(WRITE "${CMAKE_CURRENT_SOURCE_DIR}/emgu.tf.cufft.version.txt" "${EMGU_CUFFT_VERSION}")
+  FILE(WRITE "${CMAKE_CURRENT_SOURCE_DIR}/emgu.tf.dnn.version.txt" "${EMGU_DNN_VERSION}")
 ENDIF()
 
 ############################### GPU END ################################

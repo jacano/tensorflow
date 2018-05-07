@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>EMGU.CUFFT</id>
-	<title>Native x64 CUDA FFT dependency</title>
+    <id>EMGU.TF.CUFFT</id>
+	<title>Native x64 CUDA FFT dependency for Emgu.TF</title>
     <version>${EMGU_CUFFT_VERSION}</version>
     <authors>${NUGET_PACKAGE_VENDOR}</authors>
     <owners>${NUGET_PACKAGE_VENDOR}</owners>
@@ -10,14 +10,14 @@
     <projectUrl>http://www.emgu.com/wiki/index.php</projectUrl>
 	<iconUrl>http://www.emgu.com/wiki/files/EmguCVLogo.gif</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-	<summary>This package provides the native CUDA FFT dependencies for EMGU software libraries</summary>
-    <description>This package provides the native CUDA FFT dependencies for EMGU software libraries</description>
+	<summary>This package provides the native CUDA FFT dependencies for EMGU TF software libraries</summary>
+    <description>This package provides the native CUDA FFT dependencies for EMGU TF software libraries</description>
     <releaseNotes>This is the ${EMGU_CUFFT_VERSION} release of CUDA. </releaseNotes>
     <copyright>${NUGET_PACKAGE_VENDOR}, All Rights Reserved.</copyright>
-    <tags>emgu cufft</tags>
+    <tags>emgu tensorflow cufft</tags>
   </metadata>
   <files>
-	<file src="Emgu.Cufft.targets" target="build\EMGU.CUFFT.targets" />
+	<file src="Emgu.TF.Cufft.targets" target="build\EMGU.TF.CUFFT.targets" />
     <file src="..\..\..\lib\x64\cufft*.dll" target="build\x64" />
 	<file src="CUFFT_EULA.TXT" target="content\net35\CUFFT_EULA.txt" />
   </files>
