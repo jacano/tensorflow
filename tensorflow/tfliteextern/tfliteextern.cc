@@ -191,6 +191,7 @@ void tfeDynamicBufferWriteToTensor(tflite::DynamicBuffer* buffer, TfLiteTensor* 
 
 //void RegisterSelectedOps(tflite::MutableOpResolver* resolver);
 
+/*
 tflite::MutableOpResolver* tfeMutableOpResolverCreate(tflite::OpResolver** opResolver)
 {
   tflite::MutableOpResolver* mutableOpResolver =  new tflite::MutableOpResolver();
@@ -205,7 +206,6 @@ void tfeMutableOpResolverRelease(tflite::MutableOpResolver** resolver)
   *resolver = 0;
 }
 
-/*
 const char* tfeGetVersion()
 {
   return TF_Version();

@@ -96,7 +96,9 @@ $(wildcard tensorflow/contrib/lite/kernels/internal/*.c) \
 $(wildcard tensorflow/contrib/lite/kernels/internal/optimized/*.c) \
 $(wildcard tensorflow/contrib/lite/kernels/internal/reference/*.c) \
 $(wildcard tensorflow/contrib/lite/downloads/farmhash/src/farmhash.cc) \
-$(wildcard tensorflow/tfliteextern/tfliteextern.cc)
+$(wildcard tensorflow/tfliteextern/tfliteextern.cc) \
+$(wildcard tensorflow/tfliteextern/fft2d/fftsg.c) 
+
 # Remove any duplicates.
 CORE_CC_ALL_SRCS := $(sort $(CORE_CC_ALL_SRCS))
 CORE_CC_EXCLUDE_SRCS := \
@@ -106,6 +108,7 @@ $(wildcard tensorflow/contrib/lite/*/*/*test.cc) \
 $(wildcard tensorflow/contrib/lite/*/*/*/*test.cc) \
 $(wildcard tensorflow/contrib/lite/kernels/test_util.cc) \
 $(BENCHMARK_SRCS)
+
 # Filter out all the excluded files.
 TF_LITE_CC_SRCS := $(filter-out $(CORE_CC_EXCLUDE_SRCS), $(CORE_CC_ALL_SRCS))
 # File names of the intermediate files target compilation generates.
@@ -124,13 +127,18 @@ $(OBJDIR)%.o: %.c
 	$(CC) $(CCFLAGS) $(INCLUDES) -c $< -o $@
 
 # The target that's compiled if there's no command-line arguments.
-all: $(LIB_PATH) $(BENCHMARK_PATH)
+all: $(LIB_PATH) 
 
 # Gathers together all the objects we've compiled into a single '.a' archive.
 $(LIB_PATH): $(LIB_OBJS)
 	@mkdir -p $(dir $@)
 	$(AR) $(ARFLAGS) $(LIB_PATH) $(LIB_OBJS)
 
+tfliteextern.so: $(LIB_PATH)
+	@mkdir -p $(BINDIR)
+	$(CXX) -shared $(CXXFLAGS) $(INCLUDES) -o $(BINDIR)tfliteextern.so \
+	$(LIB_OBJS) $(LIBFLAGS) $(LIB_PATH) $(LDFLAGS) $(LIBS)	
+	
 $(BENCHMARK_PATH): $(BENCHMARK_OBJS) $(LIB_PATH)
 	@mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) $(INCLUDES) \

@@ -85,8 +85,8 @@ TFAPI(void) tfeDynamicBufferRelease(tflite::DynamicBuffer** buffer);
 TFAPI(void) tfeDynamicBufferAddString(tflite::DynamicBuffer* buffer, char* str, int len);
 TFAPI(void) tfeDynamicBufferWriteToTensor(tflite::DynamicBuffer* buffer, TfLiteTensor* tensor);
 
-TFAPI(tflite::MutableOpResolver*) tfeMutableOpResolverCreate(tflite::OpResolver** opResolver); 
-TFAPI(void) tfeMutableOpResolverRelease(tflite::MutableOpResolver** resolver);
+//TFAPI(tflite::MutableOpResolver*) tfeMutableOpResolverCreate(tflite::OpResolver** opResolver); 
+//TFAPI(void) tfeMutableOpResolverRelease(tflite::MutableOpResolver** resolver);
 
 //TFAPI(const char*) tfeGetVersion();
 
