@@ -34,6 +34,10 @@ LDOPTS :=
 LDOPTS += -L/usr/local/lib
 ARFLAGS := -r
 
+ifeq ($(IOS_ARCH),i386)
+	CXXFLAGS += -D__thread= 
+endif
+
 INCLUDES := \
 -I. \
 -I$(MAKEFILE_DIR)/../../../ \
@@ -43,6 +47,7 @@ INCLUDES := \
 -I$(MAKEFILE_DIR)/downloads/neon_2_sse \
 -I$(MAKEFILE_DIR)/downloads/farmhash/src \
 -I$(MAKEFILE_DIR)/downloads/flatbuffers/include \
+-I$(MAKEFILE_DIR)/../../tfliteextern \
 -I$(GENDIR)
 # This is at the end so any globally-installed frameworks like protobuf don't
 # override local versions in the source tree.
@@ -90,7 +95,9 @@ $(wildcard tensorflow/contrib/lite/kernels/internal/*.c) \
 $(wildcard tensorflow/contrib/lite/kernels/internal/optimized/*.c) \
 $(wildcard tensorflow/contrib/lite/kernels/internal/reference/*.c) \
 $(wildcard tensorflow/contrib/lite/downloads/farmhash/src/farmhash.cc) \
-$(wildcard tensorflow/contrib/lite/downloads/fft2d/fftsg.c)
+$(wildcard tensorflow/tfliteextern/fft2d/fftsg.c) \
+$(wildcard tensorflow/tfliteextern/tfliteextern.cc)
+
 # Remove any duplicates.
 CORE_CC_ALL_SRCS := $(sort $(CORE_CC_ALL_SRCS))
 CORE_CC_EXCLUDE_SRCS := \
@@ -100,6 +107,7 @@ $(wildcard tensorflow/contrib/lite/*/*/*test.cc) \
 $(wildcard tensorflow/contrib/lite/*/*/*/*test.cc) \
 $(wildcard tensorflow/contrib/lite/kernels/test_util.cc) \
 $(MINIMAL_SRCS)
+
 # Filter out all the excluded files.
 TF_LITE_CC_SRCS := $(filter-out $(CORE_CC_EXCLUDE_SRCS), $(CORE_CC_ALL_SRCS))
 # File names of the intermediate files target compilation generates.
@@ -125,6 +133,11 @@ $(LIB_PATH): $(LIB_OBJS)
 	@mkdir -p $(dir $@)
 	$(AR) $(ARFLAGS) $(LIB_PATH) $(LIB_OBJS)
 
+
+tfliteextern.so: $(LIB_PATH)
+	@mkdir -p $(BINDIR)
+	$(CXX) -shared $(CXXFLAGS) $(INCLUDES) -o $(BINDIR)tfliteextern.so \
+	$(LIB_OBJS) $(LIBFLAGS) $(LIB_PATH) $(LDFLAGS) $(LIBS)	
 $(MINIMAL_PATH): $(MINIMAL_OBJS) $(LIB_PATH)
 	@mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) $(INCLUDES) \

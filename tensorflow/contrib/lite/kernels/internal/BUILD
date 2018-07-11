@@ -13,7 +13,7 @@ tflite_deps_intel = [
 
 HARD_FP_FLAGS_IF_APPLICABLE = select({
     "//tensorflow:android_arm": ["-mfloat-abi=softfp"],
-    "//tensorflow:android_arm64": ["-mfloat-abi=softfp"],
+#    "//tensorflow:android_arm64": ["-mfloat-abi=softfp"],
     "//tensorflow:android_armeabi": ["-mfloat-abi=softfp"],
     "//conditions:default": [],
 })
