@@ -38,7 +38,7 @@
 #include "tensorflow/contrib/lite/kernels/register.h"
 #include "tensorflow/contrib/lite/model.h"
 #include "tensorflow/contrib/lite/string_util.h"
-#include "tensorflow/contrib/lite/tools/mutable_op_resolver.h"
+//#include "tensorflow/contrib/lite/tools/mutable_op_resolver.h"
 
 TFAPI(tflite::FlatBufferModel*) tfeFlatBufferModelBuildFromFile(char* filename);
 TFAPI(tflite::FlatBufferModel*) tfeFlatBufferModelBuildFromBuffer(char* buffer, int bufferSize);
