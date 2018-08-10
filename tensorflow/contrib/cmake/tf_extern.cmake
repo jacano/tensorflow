@@ -22,13 +22,19 @@ add_library(tfextern SHARED
 	$<TARGET_OBJECTS:tf_cc_while_loop>
     $<TARGET_OBJECTS:tf_core_ops>
     $<TARGET_OBJECTS:tf_core_direct_session>
+	$<TARGET_OBJECTS:tf_core_distributed_runtime>
     $<$<BOOL:${tensorflow_ENABLE_GPU}>:$<TARGET_OBJECTS:tf_stream_executor>>
 )
 
 target_link_libraries(tfextern PUBLIC
     tf_protos_cc
+	tf_core_distributed_runtime
     ${tf_core_gpu_kernels_lib}
     ${tensorflow_EXTERNAL_LIBRARIES}
+)
+
+add_dependencies(tfextern
+	tf_core_distributed_runtime
 )
 
 SET(TF_LIB_SUBFOLDER "x86")

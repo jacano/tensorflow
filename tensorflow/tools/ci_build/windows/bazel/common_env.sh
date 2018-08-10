@@ -30,9 +30,9 @@ export TMPDIR="C:/tmp"
 mkdir -p "$TMPDIR"
 
 # Set bash path
-export BAZEL_SH=${BAZEL_SH:-"C:/tools/msys64/usr/bin/bash"}
+export BAZEL_SH=${BAZEL_SH:-"C:/msys64/usr/bin/bash"}
 
-export PYTHON_BASE_PATH="${PYTHON_DIRECTORY:-Program Files/Anaconda3}"
+export PYTHON_BASE_PATH="${PYTHON_DIRECTORY:-Program Files (x86)/Microsoft Visual Studio/Shared/Anaconda3_64}"
 
 # Set the path to find bazel.
 export PATH="/c/tools/bazel/:$PATH"
@@ -55,7 +55,7 @@ export TF_CUDA_VERSION=${TF_CUDA_VERSION:-9.0}
 export TF_CUDNN_VERSION=${TF_CUDNN_VERSION:-7.0}
 export TF_CUDA_COMPUTE_CAPABILITIES=${TF_CUDA_COMPUTE_CAPABILITIES:-3.7}
 export CUDA_TOOLKIT_PATH=${CUDA_TOOLKIT_PATH:-"C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v${TF_CUDA_VERSION}"}
-export CUDNN_INSTALL_PATH=${CUDNN_INSTALL_PATH:-"C:/tools/cuda"}
+export CUDNN_INSTALL_PATH=${CUDNN_INSTALL_PATH:-"${CUDA_TOOLKIT_PATH}"}
 
 # Add Cuda and Cudnn dll directories into PATH
 export PATH="$(cygpath -u "${CUDA_TOOLKIT_PATH}")/bin:$PATH"

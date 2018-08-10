@@ -36,7 +36,6 @@ export TF_BAZEL_TARGETS="${TF_BAZEL_TARGETS} //tensorflow/tools/lib_package:clic
 export TF_BAZEL_TARGETS="${TF_BAZEL_TARGETS} //tensorflow/java:libtensorflow_jni.so"
 export TF_BAZEL_TARGETS="${TF_BAZEL_TARGETS} //tensorflow/tools/lib_package:jnilicenses_generate"
 
-clean_output_base
 run_configure_for_cpu_build
 
 # build_libtensorflow_tarball in ../builds/libtensorflow.sh
