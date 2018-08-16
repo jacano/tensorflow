@@ -48,12 +48,12 @@ cc_binary(
 	    "//tensorflow/contrib/lite:string_util",
 	    "//tensorflow/contrib/lite:schema_fbs_version",
 	    "//tensorflow/contrib/lite/kernels:builtin_ops",
-	    "//tensorflow/contrib/lite/tools:mutable_op_resolver"
+	    #"//tensorflow/contrib/lite/tools:mutable_op_resolver"
 	    #"//tensorflow/c:c_api",
-            #"//tensorflow/cc:cc_ops",
-            #"//tensorflow/core:framework_internal",
+        #"//tensorflow/cc:cc_ops",
+        #"//tensorflow/core:framework_internal",
 	    #"//tensorflow/core:framework",
-            #"//tensorflow/core:tensorflow",
+        #"//tensorflow/core:tensorflow",
         ],
     }),
 )
