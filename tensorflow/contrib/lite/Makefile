@@ -169,6 +169,7 @@ $(wildcard tensorflow/contrib/lite/kernels/internal/optimized/*.c) \
 $(wildcard tensorflow/contrib/lite/kernels/internal/reference/*.c) \
 $(wildcard tensorflow/contrib/lite/downloads/farmhash/src/farmhash.cc) \
 $(wildcard tensorflow/tfliteextern/fft2d/fftsg.c) \
+$(wildcard tensorflow/contrib/lite/kernels/internal/tensor_utils.cc) \
 $(wildcard tensorflow/tfliteextern/tfliteextern.cc)
 
 endif
