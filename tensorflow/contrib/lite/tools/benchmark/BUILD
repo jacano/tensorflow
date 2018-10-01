@@ -84,7 +84,6 @@ cc_test(
     name = "command_line_flags_test",
     srcs = ["command_line_flags_test.cc"],
     copts = common_copts,
-    tags = ["no_oss"],
     visibility = ["//visibility:private"],
     deps = [
         ":command_line_flags",
