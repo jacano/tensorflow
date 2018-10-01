@@ -679,6 +679,7 @@ class Converter {
     const string& op = node_def.op();
     std::vector<TRT_TensorOrWeights> outputs;
     if (PluginFactoryTensorRT::GetInstance()->IsPlugin(op)) {
+      // TODO(aaroey): plugin_converter_ is not set, fix it.
       TF_RETURN_IF_ERROR(plugin_converter_(*this, node_def, inputs, &outputs));
     } else {
       if (!op_registry_.count(op)) {

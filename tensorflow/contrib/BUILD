@@ -136,6 +136,7 @@ py_library(
         "//tensorflow/contrib/bigtable",  # depends on bigtable
         "//tensorflow/contrib/cloud:cloud_py",  # doesn't compile on Windows
         "//tensorflow/contrib/ffmpeg:ffmpeg_ops_py",
+        "//tensorflow/contrib/tensorrt:init_py",  # doesn't compile on windows
     ]),
 )
 
