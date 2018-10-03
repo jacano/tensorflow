@@ -66,6 +66,7 @@ INCLUDES := \
 -I$(MAKEFILE_DIR)/downloads/neon_2_sse \
 -I$(MAKEFILE_DIR)/downloads/farmhash/src \
 -I$(MAKEFILE_DIR)/downloads/flatbuffers/include \
+-I$(MAKEFILE_DIR)/../../tfliteextern \
 -I$(OBJDIR)
 # This is at the end so any globally-installed frameworks like protobuf don't
 # override local versions in the source tree.
@@ -118,7 +119,8 @@ $(wildcard tensorflow/contrib/lite/kernels/internal/*.c) \
 $(wildcard tensorflow/contrib/lite/kernels/internal/optimized/*.c) \
 $(wildcard tensorflow/contrib/lite/kernels/internal/reference/*.c) \
 $(wildcard tensorflow/contrib/lite/tools/make/downloads/farmhash/src/farmhash.cc) \
-$(wildcard tensorflow/contrib/lite/tools/make/downloads/fft2d/fftsg.c)
+$(wildcard tensorflow/contrib/lite/tools/make/downloads/fft2d/fftsg.c) \
+$(wildcard tensorflow/tfliteextern/tfliteextern.cc)
 endif
 # Remove any duplicates.
 CORE_CC_ALL_SRCS := $(sort $(CORE_CC_ALL_SRCS))
