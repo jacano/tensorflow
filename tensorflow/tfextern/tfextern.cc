@@ -251,6 +251,13 @@ void tfeGraphSetTensorShape(TF_Graph* graph, TF_Operation* outputOperation, int 
 	TF_GraphSetTensorShape(graph, output, dimsTF, num_dims, status);
 	free(dimsTF);
 }
+int tfeGraphGetTensorNumDims(TF_Graph* graph, TF_Operation* outputOperation, int idx, TF_Status* status)
+{
+	TF_Output output;
+	output.oper = outputOperation;
+	output.index = idx;
+	return TF_GraphGetTensorNumDims(graph, output, status);
+}
 void tfeGraphGetTensorShape(TF_Graph* graph, TF_Operation* outputOperation, int idx, int* dims, int num_dims, TF_Status* status)
 {
 	int64_t* dimsTF = static_cast<int64_t*>(malloc(sizeof(int64_t) * num_dims));
@@ -263,9 +270,16 @@ void tfeGraphGetTensorShape(TF_Graph* graph, TF_Operation* outputOperation, int 
 		dims[i] = static_cast<int>(dimsTF[i]);
 	free(dimsTF);
 }
-void tfeGraphVersions(TF_Graph* graph, TF_Buffer* output_version_def, TF_Status* status)
+TF_Buffer* tfeGraphVersions(TF_Graph* graph, TF_Status* status)
 {
+	TF_Buffer* output_version_def = new TF_Buffer();
 	TF_GraphVersions(graph, output_version_def, status);
+	return output_version_def;
+}
+
+int tfeGraphNumFunctions(TF_Graph* g)
+{
+	return TF_GraphNumFunctions(g);
 }
 
 TF_OperationDescription* tfeNewOperation(TF_Graph* graph, char* op_type, char* oper_name)
@@ -307,6 +321,24 @@ int tfeOperationOutputNumConsumers(TF_Operation* oper, int idx)
 	out.index = idx;
 	return TF_OperationOutputNumConsumers(out);
 }
+
+int tfeOperationOutputConsumers(TF_Operation* operOut, int outIdx, TF_Operation** consumers, int* inputIdx, int maxConsumers)
+{
+	TF_Output outOp;
+	outOp.oper = operOut;
+	outOp.index = outIdx;
+	TF_Input* inputs = static_cast<TF_Input*>( malloc(sizeof(TF_Input) * maxConsumers) );
+	int count = TF_OperationOutputConsumers(outOp, inputs, maxConsumers);
+	
+	for (int i = 0; i < maxConsumers; i++)
+	{
+		consumers[i] = inputs[i].oper;
+		inputIdx[i] = inputs[i].index;
+	}
+	free(inputs);
+	return count;
+}
+
 int tfeOperationNumInputs(TF_Operation* oper)
 {
 	return TF_OperationNumInputs(oper);
@@ -315,11 +347,18 @@ int tfeOperationNumControlInputs(TF_Operation* oper)
 {
 	return TF_OperationNumControlInputs(oper);
 }
+int tfeOperationGetControlInputs(TF_Operation* oper, TF_Operation** controlInputs, int maxControlInputs)
+{
+	return TF_OperationGetControlInputs(oper, controlInputs, maxControlInputs);
+}
 int tfeOperationNumControlOutputs(TF_Operation* oper)
 {
 	return TF_OperationNumControlOutputs(oper);
 }
-
+int tfeOperationGetControlOutputs(TF_Operation* oper, TF_Operation** controlOutputs, int maxControlOutputs)
+{
+	return TF_OperationGetControlOutputs(oper, controlOutputs, maxControlOutputs);
+}
 
 TF_DataType tfeOperationInputType(TF_Operation* oper, int idx)
 {
@@ -474,6 +513,21 @@ int tfeStringEncode(const char* src, int src_len, char* dst, int dst_len, TF_Sta
 int tfeStringDecode(const char* src, int src_len, const char** dst, size_t* dst_len, TF_Status* status)
 {
 	return static_cast<int>(TF_StringDecode(src, src_len, dst, dst_len, status));
+}
+
+//Library
+TF_Library* tfeLoadLibrary(const char* libraryFilename, TF_Status* status)
+{
+	return TF_LoadLibrary(libraryFilename, status);
+}
+TF_Buffer* tfeGetOpList(TF_Library* libHandle)
+{
+	return &(libHandle->op_list);
+}
+void tfeDeleteLibraryHandle(TF_Library** libHandle)
+{
+	TF_DeleteLibraryHandle(*libHandle);
+	*libHandle = 0;
 }
 
 void tfeMemcpy(void* dst, void* src, int length)
