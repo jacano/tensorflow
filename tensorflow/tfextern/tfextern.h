@@ -1,4 +1,5 @@
 #include "tensorflow/c/c_api.h"
+#include "tensorflow/c/c_api_internal.h"
 #include "tensorflow/core/util/port.h"
 
 #ifndef  TFAPI_EXPORTS
@@ -101,8 +102,10 @@ TFAPI(TF_Operation*) tfeGraphOperationByName(TF_Graph* graph, const char* oper_n
 TFAPI(TF_Operation*) tfeGraphNextOperation(TF_Graph* graph, size_t* pos);
 TFAPI(void) tfeGraphToGraphDef(TF_Graph* graph, TF_Buffer* output_graph_def, TF_Status* status);
 TFAPI(void) tfeGraphSetTensorShape(TF_Graph* graph, TF_Operation* outputOperation, int idx, const int* dims, const int num_dims, TF_Status* status);
+TFAPI(int) tfeGraphGetTensorNumDims(TF_Graph* graph, TF_Operation* outputOperation, int idx, TF_Status* status);
 TFAPI(void) tfeGraphGetTensorShape(TF_Graph* graph, TF_Operation* outputOperation, int idx,	int* dims, int num_dims, TF_Status* status);
-TFAPI(void) tfeGraphVersions(TF_Graph* graph, TF_Buffer* output_version_def, TF_Status* status);
+TFAPI(TF_Buffer*) tfeGraphVersions(TF_Graph* graph, TF_Status* status);
+TFAPI(int) tfeGraphNumFunctions(TF_Graph* g);
 
 //Operation
 TFAPI(TF_OperationDescription*) tfeNewOperation(TF_Graph* graph, char* op_type, char* oper_name);
@@ -113,11 +116,15 @@ TFAPI(const char*) tfeOperationDevice(TF_Operation* oper);
 TFAPI(int) tfeOperationNumOutputs(TF_Operation* oper);
 TFAPI(int) tfeOperationNumInputs(TF_Operation* oper);
 TFAPI(int) tfeOperationNumControlInputs(TF_Operation* oper);
+TFAPI(int) tfeOperationGetControlInputs(TF_Operation* oper, TF_Operation** controlInputs, int maxControlInputs);
 TFAPI(int) tfeOperationNumControlOutputs(TF_Operation* oper);
+TFAPI(int) tfeOperationGetControlOutputs(TF_Operation* oper, TF_Operation** controlOutputs, int maxControlOutputs);
+
 
 //Output
 TFAPI(TF_DataType) tfeOperationOutputType(TF_Operation* oper, int idx);
 TFAPI(int) tfeOperationOutputNumConsumers(TF_Operation* oper, int idx);
+TFAPI(int) tfeOperationOutputConsumers(TF_Operation* operOut, int outIdx, TF_Operation** consumers, int* inputIdx, int maxConsumers);
 
 //Input
 TFAPI(TF_DataType) tfeOperationInputType(TF_Operation* oper, int idx);
@@ -158,6 +165,11 @@ TFAPI(int) tfeBufferGetLength(TF_Buffer* buffer);
 TFAPI(int) tfeStringEncodedSize(int len);
 TFAPI(int) tfeStringEncode(const char* src, int src_len, char* dst, int dst_len, TF_Status* status);
 TFAPI(int) tfeStringDecode(const char* src, int src_len, const char** dst, size_t* dst_len, TF_Status* status);
+
+//Library
+TFAPI(TF_Library*) tfeLoadLibrary(const char* libraryFilename,	TF_Status* status);
+TFAPI(TF_Buffer*) tfeGetOpList(TF_Library* libHandle);
+TFAPI(void) tfeDeleteLibraryHandle(TF_Library** libHandle);
 
 TFAPI(int) tfeDataTypeSize(TF_DataType dt);
 
