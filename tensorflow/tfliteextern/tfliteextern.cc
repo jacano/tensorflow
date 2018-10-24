@@ -61,6 +61,10 @@ int tfeInterpreterAllocateTensors(tflite::Interpreter* interpreter)
 {
   return interpreter->AllocateTensors();
 }
+void tfeInterpreterSetNumThreads(tflite::Interpreter* interpreter, int num_threads)
+{
+  return interpreter->SetNumThreads(num_threads);
+}
 int tfeInterpreterInvoke(tflite::Interpreter* interpreter)
 {
   return interpreter->Invoke();
